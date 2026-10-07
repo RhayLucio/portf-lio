@@ -1,0 +1,779 @@
+/* ==========================================================
+   1. VARIÁVEIS DE COR
+   ========================================================== */
+:root{
+  --cor-fundo:          #0c0810;
+  --cor-fundo-suave:    #120c18;
+  --cor-fundo-cartao:   #140f1a;
+  --cor-linha:          #2a2030;
+
+  --roxo-profundo:      #5b21b6;
+  --roxo:               #9333ea;
+  --roxo-claro:         #b968f5;
+
+  --bordo:              #7a1030;
+  --bordo-claro:        #c22a56;
+  --bordo-profundo:     #3c0917;
+
+  --cor-texto:          #f3eef9;
+  --texto-esmaecido:    #b9aecb;
+  --texto-suave:        #7c7190;
+}
+
+
+/* ==========================================================
+   2. RESET E BASE
+   ========================================================== */
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  background:var(--cor-linha);
+  color:var(--cor-texto);
+  font-family:'Bodoni Moda', serif;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+a{ color:inherit; text-decoration:none; }
+button{ font:inherit; cursor:pointer; }
+
+.contentor{
+  max-width:1240px;
+  margin:0 auto;
+  padding:0 clamp(20px,5vw,64px);
+}
+
+section{ position:relative; }
+
+/* manchas de luz decorativas, 100% CSS, sem JS */
+.brilho{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(90px);
+  pointer-events:none;
+  z-index:0;
+}
+
+
+/* ==========================================================
+   3. LOGOTIPO 
+   ========================================================== */
+.logotipo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.logotipo img{ max-width:130px; display:block; }
+
+.logotipo-texto{ line-height:1.15; }
+.logotipo-texto .nome-1,
+.logotipo-texto .nome-2{
+  font-family:'Bodoni Moda', serif;
+  font-weight:600;
+  letter-spacing:.12em;
+  font-size:.86rem;
+  text-transform:uppercase;
+  display:block;
+}
+.logotipo-texto .nome-1{ color:var(--cor-texto); }
+.logotipo-texto .nome-2{ color:var(--texto-esmaecido); }
+
+
+/* ==========================================================
+   4. CABEÇALHO / MENU
+   ========================================================== */
+.cabecalho{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background: #5e4f79;
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--texto-suave);
+}
+.navegacao{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  max-width:1240px;
+  margin:0 auto;
+  padding:16px clamp(20px,5vw,64px);
+  position:relative;
+}
+
+.menu-links{
+  display:flex;
+  gap:80px;
+}
+.menu-links a{
+  font-family:'Bodoni Moda', serif;
+  font-size:15px;
+  font-weight: 600;
+  letter-spacing:.13px;
+  text-transform:uppercase;
+  color:var(--bordo-profundo);
+  padding-bottom:6px;
+  border-bottom:2px solid transparent;
+  transition:color .25s ease, border-color .25s ease;
+}
+
+.menu-links a:hover{
+  color:var(--cor-texto);
+  border-color:var(--bordo-claro);
+}
+
+/* menu mobile */
+.menu-alternar-entrada{ position:absolute; opacity:0; pointer-events:none; }
+.menu-alternar{
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  gap:5px;
+  width:32px; height:32px;
+  cursor:pointer;
+  z-index:60;
+}
+.menu-alternar span{
+  width:100%; height:2px;
+  background:var(--cor-texto);
+  border-radius:2px;
+  transition:transform .25s ease, opacity .2s ease, background .25s ease;
+}
+#menu-alternar-entrada:checked ~ .menu-alternar span:nth-child(1){ transform:translateY(7px) rotate(45deg); background:var(--bordo-claro); }
+#menu-alternar-entrada:checked ~ .menu-alternar span:nth-child(2){ opacity:0; }
+#menu-alternar-entrada:checked ~ .menu-alternar span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); background:var(--bordo-claro); }
+
+.botao-cta{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-family:'Bodoni Moda', serif;
+  font-size:.78rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  font-weight:500;
+  padding:13px 26px;
+  border-radius:999px;
+  border:none;
+  color:#fff;
+  background:var(--bordo);
+  white-space:nowrap;
+  box-shadow:0 8px 22px rgba(122,16,48,.35);
+  transition:background .25s ease, transform .2s ease, box-shadow .25s ease;
+}
+.botao-cta:hover{
+  background:var(--bordo-profundo);
+  box-shadow:0 10px 28px rgba(122,16,48,.5);
+  transform:translateY(-1px);
+}
+
+/* botão contornado (secundário) */
+.botao-contorno{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:13px 26px;
+  border-radius:999px;
+  border:1px solid var(--cor-linha);
+  font-family:'Bodoni Moda', serif;
+  font-size:.78rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--cor-texto);
+  transition:border-color .25s ease, color .25s ease;
+}
+.botao-contorno:hover{
+  border-color:var(--bordo-claro);
+  color:var(--bordo-claro);
+}
+
+
+/* ==========================================================
+   6. SEÇÃO HERÓI
+   ========================================================== */
+.secao-heroi{ padding:90px 0 90px; overflow:hidden; }
+.secao-heroi .brilho.brilho-1{ width:520px; height:520px; top:-140px; left:-160px; background:rgba(147,51,234,.26); }
+.secao-heroi .brilho.brilho-2{ width:460px; height:460px; bottom:-160px; right:-100px; background:rgba(122,16,48,.30); }
+
+.heroi-grade{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:56px;
+  align-items:center;
+  position:relative;
+  z-index:1;
+}
+.selo {
+  font-family: 'bodoni Moda', serif;
+  font-weight: 600;
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  color:var(--roxo-claro);
+
+}
+
+.heroi-titulo{
+  font-family:'Bodoni Moda', serif;
+  font-weight:600;
+  font-size:clamp(2.6rem,5.4vw,4.4rem);
+  font-style: italic;
+  line-height:1.02;
+  margin:16px 0 6px;
+  color:var(--cor-texto);
+}
+.heroi-titulo .assinatura{
+  font-style:italic;
+  font-weight:500;
+  color:var(--roxo-claro);
+  text-shadow:0 0 26px rgba(185,104,245,.4);
+}
+
+.heroi-frase{
+  font-family:'Bodoni Moda', serif;
+  font-size:clamp(1.1rem,2vw,1.5rem);
+  color:var(--cor-texto);
+  max-width:480px;
+  margin:18px 0 22px;
+}
+.heroi-frase em{
+  font-style:italic;
+  color:var(--bordo-claro);
+}
+
+.heroi-descricao{
+  color:var(--texto-esmaecido);
+  max-width:460px;
+  font-size:.98rem;
+  margin-bottom:34px;
+}
+
+/* retrato em destaque, à direita da hero */
+.heroi-retrato{ position:relative; display:flex; justify-content:center; }
+.retrato-moldura{
+  position:relative;
+  width:min(420px,90%);
+  aspect-ratio:3/3.7;
+  border-radius:40px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 30% 15%, rgba(226,64,140,.55), transparent 55%),
+    radial-gradient(circle at 75% 85%, rgba(147,51,234,.35), transparent 55%),
+    linear-gradient(160deg, #26132f, #0c0810 70%);
+  border:1px solid rgba(226,64,140,.35);
+  box-shadow:0 0 80px rgba(226,64,140,.28), inset 0 0 60px rgba(0,0,0,.5);
+  display:grid;
+  place-items:center;
+}
+.retrato-moldura img{ width:100%; opacity:.95; }
+
+.lista-caracteristicas{
+  position:absolute;
+  right:-10px;
+  top:14%;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+@media (min-width:1000px){ .lista-caracteristicas{ right:-36px; } }
+.caracteristica{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:'Bodoni Moda', serif;
+  font-size:.82rem;
+  color:var(--texto-esmaecido);
+  background:rgba(20,14,26,.75);
+  border:1px solid var(--cor-linha);
+  border-radius:999px;
+  padding:8px 16px 8px 8px;
+  backdrop-filter:blur(6px);
+}
+.caracteristica .icone-ponto{
+  width:26px; height:26px;
+  border-radius:50%;
+  display:grid; place-items:center;
+  background:rgba(147,51,234,.15);
+  border:1px solid rgba(147,51,234,.4);
+  color:var(--roxo-claro);
+  flex-shrink:0;
+}
+
+
+/* ==========================================================
+   7. TÍTULOS DE SEÇÃO
+   ========================================================== */
+.titulo-secao{
+  font-family:'Bodoni Moda', serif;
+  letter-spacing:.05em;
+  font-size:clamp(1.6rem,3vw,2.2rem);
+  text-transform:uppercase;
+  font-weight:600;
+  margin-bottom:22px;
+  position:relative;
+  padding-bottom:14px;
+}
+.titulo-secao::after{
+  content:'';
+  position:absolute;
+  left:0; bottom:0;
+  width:56px; height:2px;
+  background:var(--bordo-claro);
+}
+.cabecalho-central .titulo-secao::after{ left:50%; transform:translateX(-50%); }
+
+
+/* ==========================================================
+   8. SEÇÃO "SOBRE MIM"
+   ========================================================== */
+.secao-sobre{
+  background:var(--cor-fundo-suave);
+  border-top:1px solid var(--cor-linha);
+  border-bottom:1px solid var(--cor-linha);
+  padding:110px 0;
+}
+.sobre-grade{
+  display:grid;
+  grid-template-columns:.85fr 1.15fr;
+  gap:70px;
+  align-items:start;
+}
+
+/* colagem de fotos, feita só com CSS */
+.colagem{ position:relative; height:430px; }
+
+.colagem .cartao{
+  position:absolute;
+  border-radius:12px;
+  border:1px solid var(--cor-linha);
+  box-shadow:0 20px 50px rgba(0,0,0,.55);
+  overflow:hidden;
+}
+.colagem .cartao-1{
+  width:150px; 
+  left:0; top:70px;
+  background:linear-gradient(160deg,#241018,#0c0810 70%);
+  transform:rotate(-7deg);
+}
+.cartao-1 img{ width:100%; opacity:.95; }
+
+.colagem .cartao-2{
+  width:170px; 
+  left:120px; top:0;
+  background:linear-gradient(150deg,#1c2430,#0c0810 70%);
+  transform:rotate(4deg);
+}
+.cartao-2 img{ width:100%; opacity:.95; }
+
+.colagem .cartao-3{
+  width:150px; 
+  left:70px; top:190px;
+  background:linear-gradient(160deg,#2a1030,#0c0810 70%);
+  display:grid; place-items:center;
+  transform:rotate(-3deg);
+}
+.cartao-3 img{ width:100%; opacity:.95; }
+
+.colagem .etiqueta-pendurada{
+  position:absolute;
+  top:-16px; left:8px;
+  width:46px; height:20px;
+  background:var(--bordo);
+  border-radius:3px;
+  transform:rotate(-10deg);
+  box-shadow:0 6px 14px rgba(0,0,0,.4);
+}
+.colagem .bilhete{
+  position:absolute;
+  left:0; bottom:0;
+  width:220px;
+  background:#1a1220;
+  border:1px solid var(--cor-linha);
+  border-radius:10px;
+  padding:16px 18px;
+  font-family:'Bodoni Moda', serif;
+  font-style:italic;
+  color:var(--texto-esmaecido);
+  font-size:.82rem;
+  line-height:1.5;
+  box-shadow:0 16px 40px rgba(0,0,0,.5);
+  transform:rotate(-2deg);
+}
+
+
+.sobre-texto p{
+  color:var(--texto-esmaecido);
+  max-width:600px;
+  margin-bottom:16px;
+}
+.sobre-construindo{
+  margin-top:30px;
+  padding-top:26px;
+  border-top:1px solid var(--cor-linha);
+}
+.sobre-construindo h3{
+  font-family:'Bodoni Moda', serif;
+  font-size:.85rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--bordo-claro);
+  margin-bottom:12px;
+}
+.sobre-construindo p{
+  color:var(--texto-esmaecido);
+  max-width:600px;
+}
+
+
+/* ==========================================================
+   9. SEÇÃO "MEUS SERVIÇOS"
+   ========================================================== */
+.secao-servicos{ padding:110px 0; }
+.secao-servicos .brilho{ width:500px; height:500px; top:10%; right:-220px; background:rgba(122,16,48,.16); }
+
+.cabecalho-central{ text-align:center; margin-bottom:56px; position:relative; z-index:1; }
+.cabecalho-central .selo{ display:block; margin-bottom:10px; }
+
+.grade-servicos{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  position:relative;
+  z-index:1;
+}
+.cartao-servico{
+  text-align:center;
+  background:transparent;
+  border:1px solid var(--bordo);
+  border-radius:14px;
+  padding:36px 26px;
+  transition:border-color .3s ease, transform .3s ease, box-shadow .3s ease;
+}
+.cartao-servico:hover{
+  border-color:var(--bordo-claro);
+  transform:translateY(-6px);
+  box-shadow:0 20px 50px rgba(122,16,48,.22);
+}
+.icone-servico{
+  width:40px; height:40px;
+  margin:0 auto 20px;
+  color:var(--roxo-claro);
+}
+.cartao-servico h3{
+  font-family:'Bodoni Moda', serif;
+  font-weight:600;
+  font-size:1.05rem;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+.cartao-servico p{
+  color:var(--texto-suave);
+  font-size:.86rem;
+}
+
+
+/* ==========================================================
+   10. SEÇÃO "APPS E SOFTWARES"
+   ========================================================== */
+.secao-ferramentas{
+  background:var(--cor-fundo-suave);
+  border-top:1px solid var(--cor-linha);
+  border-bottom:1px solid var(--cor-linha);
+  padding:90px 0;
+  text-align:center;
+}
+.grade-ferramentas{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:34px;
+  margin:50px 0 40px;
+}
+.item-ferramenta{ width:84px; }
+.icone-ferramenta{
+  width:64px; height:64px;
+  margin:0 auto 10px;
+  border-radius:16px;
+  display:grid; place-items:center;
+  font-family:'Bodoni Moda', serif;
+  font-weight:600;
+  font-size:1.1rem;
+  color:#fff;
+  box-shadow:0 10px 24px rgba(0,0,0,.4);
+}
+.item-ferramenta span{
+  display:block;
+  font-size:.72rem;
+  color:var(--texto-suave);
+}
+.frase-final{
+  max-width:560px;
+  margin:0 auto;
+  color:var(--texto-esmaecido);
+  font-family:'Bodoni Moda', serif;
+  font-style:italic;
+  font-size:1rem;
+}
+
+
+/* ==========================================================
+   11. SEÇÃO "MEU PORTFÓLIO"
+   Os filtros funcionam de verdade — feitos com botões de
+   rádio escondidos + seletor CSS ~ , sem nenhuma linha de JS.
+   ========================================================== */
+.secao-portfolio{ padding:110px 0; }
+
+.filtro-entrada{ position:absolute; opacity:0; pointer-events:none; }
+
+.filtros{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:12px;
+  margin-bottom:50px;
+}
+.filtro-item{
+  display:inline-block;
+  cursor:pointer;
+  font-family:'Bodoni Moda', serif;
+  font-size:.76rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  padding:10px 20px;
+  border-radius:999px;
+  border:1px solid var(--cor-linha);
+  color:var(--texto-esmaecido);
+  transition:background .2s ease, color .2s ease, border-color .2s ease;
+}
+/* estilo do filtro ativo, de acordo com o rádio marcado */
+#filtro-todos:checked       ~ .filtros label[for="filtro-todos"],
+#filtro-design:checked      ~ .filtros label[for="filtro-design"],
+#filtro-web:checked         ~ .filtros label[for="filtro-web"],
+#filtro-fotografia:checked  ~ .filtros label[for="filtro-fotografia"],
+#filtro-video:checked       ~ .filtros label[for="filtro-video"],
+#filtro-animacao:checked    ~ .filtros label[for="filtro-animacao"],
+#filtro-games:checked       ~ .filtros label[for="filtro-games"]{
+  background:var(--bordo);
+  border-color:transparent;
+  color:#fff;
+  box-shadow:0 0 18px rgba(122,16,48,.4);
+}
+
+.grade-portfolio{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+.item-portfolio{
+  position:relative;
+  border-radius:14px;
+  overflow:hidden;
+  aspect-ratio:4/3.2;
+  border:1px solid var(--cor-linha);
+}
+.item-portfolio .fundo{ position:absolute; inset:0; }
+.item-portfolio .sobreposicao{
+  position:absolute; inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:20px;
+  background:linear-gradient(0deg, rgba(12,8,16,.94) 0%, rgba(12,8,16,.3) 55%, transparent 80%);
+}
+.item-portfolio .etiqueta{
+  font-family:'Bodoni Moda', serif;
+  font-size:.68rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--texto-suave);
+  margin-top:4px;
+}
+.item-portfolio h4{
+  font-family:'Bodoni Moda', serif;
+  font-weight:600;
+  font-size:.92rem;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+}
+.projeto-1 .fundo{ background:linear-gradient(150deg,#2a2020,#0c0810 70%); }
+.projeto-2 .fundo{ background:linear-gradient(150deg,#1c242f,#0c0810 70%); }
+.projeto-3 .fundo{ background:linear-gradient(150deg,#3a1230,#0c0810 70%); }
+.projeto-4 .fundo{ background:linear-gradient(150deg,#1a1f38,#0c0810 70%); }
+.projeto-5 .fundo{ background:linear-gradient(150deg,#2c2410,#0c0810 70%); }
+.projeto-6 .fundo{ background:linear-gradient(150deg,#42123a,#0c0810 70%); }
+
+/* regras que escondem os itens que não pertencem à categoria escolhida */
+#filtro-design:checked      ~ .grade-portfolio .item-portfolio:not([data-categoria="design"])     { display:none; }
+#filtro-web:checked         ~ .grade-portfolio .item-portfolio:not([data-categoria="web"])        { display:none; }
+#filtro-fotografia:checked  ~ .grade-portfolio .item-portfolio:not([data-categoria="fotografia"]) { display:none; }
+#filtro-video:checked       ~ .grade-portfolio .item-portfolio:not([data-categoria="video"])      { display:none; }
+#filtro-animacao:checked    ~ .grade-portfolio .item-portfolio:not([data-categoria="animacao"])   { display:none; }
+#filtro-games:checked       ~ .grade-portfolio .item-portfolio:not([data-categoria="games"])      { display:none; }
+
+.ver-tudo{ display:flex; justify-content:center; margin-top:46px; }
+
+
+/* ==========================================================
+   12. SEÇÃO "ENTRE EM CONTATO"
+   ========================================================== */
+.secao-contato{
+  background:var(--cor-fundo-suave);
+  border-top:1px solid var(--cor-linha);
+  padding:110px 0 80px;
+}
+.contato-grade{
+  display:grid;
+  grid-template-columns:.85fr 1.15fr;
+  gap:64px;
+}
+.contato-info p{
+  color:var(--texto-esmaecido);
+  max-width:420px;
+  margin:18px 0 20px;
+}
+.contato-info .citacao{
+  font-family:'Bodoni Moda', serif;
+  font-style:italic;
+  color:var(--bordo-claro);
+  font-size:1.05rem;
+  margin-bottom:32px;
+}
+.linha-info{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom:22px;
+}
+.icone-info{
+  width:38px; height:38px;
+  flex-shrink:0;
+  border-radius:50%;
+  display:grid; place-items:center;
+  background:rgba(147,51,234,.14);
+  border:1px solid rgba(147,51,234,.4);
+  color:var(--roxo-claro);
+}
+.icone-info.bordo{
+  background:rgba(122,16,48,.16);
+  border:1px solid rgba(194,42,86,.4);
+  color:var(--bordo-claro);
+}
+.linha-info .valor{ font-size:.94rem; color:var(--cor-texto); }
+
+/* formulário — funciona de verdade, abrindo o e-mail padrão do visitante */
+.formulario{ display:grid; gap:16px; margin-bottom:34px; }
+.formulario-linha{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.formulario input,
+.formulario textarea{
+  width:100%;
+  background:var(--cor-fundo-cartao);
+  border:1px solid var(--cor-linha);
+  border-radius:10px;
+  padding:15px 18px;
+  color:var(--cor-texto);
+  font-family:'Bodoni Moda', serif;
+  font-size:.92rem;
+}
+.formulario input::placeholder,
+.formulario textarea::placeholder{ color:var(--texto-suave); }
+.formulario input:focus,
+.formulario textarea:focus{ outline:2px solid var(--bordo-claro); outline-offset:2px; }
+.formulario textarea{ min-height:130px; resize:vertical; }
+.botao-enviar{ justify-self:start; }
+
+/* pequena ilustração decorativa ao lado do formulário, feita em SVG/CSS */
+.ilustracao-contato{
+  display:flex;
+  justify-content:center;
+  opacity:.9;
+}
+
+
+/* ==========================================================
+   13. RODAPÉ
+   ========================================================== */
+.rodape{ padding:30px 0;
+  border-top:1px; 
+  background: #5e4f79;
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--texto-suave); }
+.rodape-grade{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:18px;
+}
+
+.rodape-logotipo img{ max-width:130px; display:block; }
+.direitos-autorais{ color:var(--texto-suave); font-size:.8rem; }
+.redes-sociais{ display:flex; gap:14px; }
+.redes-sociais a{
+  width:36px; height:36px;
+  border-radius:50%;
+  border:1px solid var(--cor-linha);
+  display:grid; place-items:center;
+  color:var(--texto-esmaecido);
+  transition:border-color .25s ease, color .25s ease;
+}
+.redes-sociais a:hover{ border-color:var(--bordo-claro); color:var(--bordo-claro); }
+
+
+/* ==========================================================
+   14. RESPONSIVIDADE
+   ========================================================== */
+@media (max-width:980px){
+  .heroi-grade, .sobre-grade, .contato-grade{ grid-template-columns:1fr; }
+  .heroi-retrato{ order:-1; }
+  .grade-servicos{ grid-template-columns:repeat(2,1fr); }
+  .grade-portfolio{ grid-template-columns:repeat(2,1fr); }
+  .colagem{ height:360px; }
+  .ilustracao-contato{ margin-top:24px; }
+
+  .menu-alternar{ display:flex; }
+  .menu-links{
+    display:none;
+    position:absolute;
+    top:calc(100% + 1px);
+    left:0; right:0;
+    flex-direction:column;
+    gap:0;
+    background:var(--cor-fundo-suave);
+    border-bottom:1px solid var(--cor-linha);
+    box-shadow:0 20px 40px rgba(0,0,0,.5);
+    padding:8px clamp(20px,5vw,64px) 18px;
+  }
+  .menu-links a{ width:100%; padding:14px 0; border-bottom:1px solid var(--cor-linha); }
+  .menu-links a:last-child{ border-bottom:none; }
+  #menu-alternar-entrada:checked ~ .menu-links{ display:flex; }
+  .navegacao .botao-cta{ padding:11px 18px; font-size:.72rem; }
+}
+
+@media (max-width:760px){
+  .logotipo-texto{ display:none; }
+  .navegacao > .botao-cta{ display:none; }
+}
+
+@media (max-width:600px){
+  .grade-servicos{ grid-template-columns:1fr; }
+  .grade-portfolio{ grid-template-columns:1fr; }
+  .formulario-linha{ grid-template-columns:1fr; }
+  .botoes-linha{ flex-direction:column; align-items:flex-start; }
+  .lista-caracteristicas{ position:static; flex-direction:row; flex-wrap:wrap; margin-top:20px; }
+  .secao-heroi{ padding:56px 0 60px; }
+  .secao-sobre, .secao-servicos, .secao-ferramentas, .secao-portfolio{ padding:70px 0; }
+  .secao-contato{ padding:70px 0 56px; }
+}
+
+@media (max-width:560px){
+  .colagem{ height:300px; max-width:280px; margin:0 auto 24px; }
+  .colagem .cartao-1{ width:120px; height:170px; top:50px; }
+  .colagem .cartao-2{ width:130px; height:180px; left:100px; top:0; }
+  .colagem .cartao-3{ width:120px; height:160px; left:55px; top:150px; }
+  .colagem .bilhete{ width:190px; font-size:.78rem; }
+  .sobre-grade{ gap:36px; }
+}
+
+@media (max-width:420px){
+  .rodape-grade{ justify-content:center; text-align:center; }
+}
+
+
